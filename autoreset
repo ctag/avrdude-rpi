@@ -17,19 +17,28 @@ def reset():
   GPIO.output(pin, GPIO.HIGH)
   time.sleep(0.12)
   GPIO.output(pin, GPIO.LOW)
+  GPIO.cleanup()
 
 def process():
+  rst = 0
   while True:
     try: 
       duration = time.time() - start
       input = sys.stdin.readline().strip()
       if dtr.match(input):
+        if rst == 1:
+          continue
+        rst = 1
+        print "autoreset: triggering pin!"
         reset()
-        return
-      elif duration > 5000:
+        #return
+      elif duration > 15:
+        print "autoreset: Timeout reached, exiting!"
         return
     except:
       continue
 
+#reset()
 process()
-print "done with autoreset"
+
+print "autoreset: done!"

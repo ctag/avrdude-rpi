@@ -22,3 +22,8 @@ autoreset where we do "pin = 11" and change the 11 to your gpio pin number.
 
 Now when you run avrdude from anywhere (including via arduino's normal UI) it will flag dtr when
 it is about to upload hex data.
+
+Changes:
+--------
+
+I've made the script look for a local copy of avrdude-original so that it can be used with PlatformIO, and tried to ensure it will clean up autoreset when it's done.

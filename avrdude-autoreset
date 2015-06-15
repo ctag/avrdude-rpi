@@ -1,3 +1,12 @@
 #!/bin/sh
 
-strace -o "|autoreset" -eioctl /usr/bin/avrdude-original $@
+# Set local directory variable
+if [ ! -d "$LOCAL_DIR" ]; then
+	LOCAL_DIR="$( dirname "$( readlink -f "$0" )" )"
+fi
+
+sudo -s strace -o "|$LOCAL_DIR/autoreset" -eioctl $LOCAL_DIR/avrdude-original $@
+
+pgrep autoreset && sudo kill $( pgrep autoreset )
+
+#-o "|$LOCAL_DIR/autoreset" 
